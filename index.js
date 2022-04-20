@@ -46,4 +46,4 @@ for (let number = from; number <= to; number++) {
 
 }
 if (mark == 0)
-    console.log(colors.red("numbers not found"));
+    console.log(colors.red("numbers not found!!"));
