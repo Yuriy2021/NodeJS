@@ -22,21 +22,30 @@ const to = process.argv[3];
 
 for (let number = from; number <= to; number++) {
     let colorer = colors.green;
-    if (isPrime(number)) {
-        if (count % 2 === 0) {
-            colorer = colors.yellow;
-            count += 1;
-            mark += 1;
-        } else if (count % 3 === 0) {
-            colorer = colors.red;
-            count = 1;
-            mark += 1;
-        } else {
-            count += 1;
-            mark += 1;
+    let mem = typeof (number)
+    console.log(typeof (mem));
+    if (typeof (number) === "number") {
+        if (isPrime(number)) {
+            if (count % 2 === 0) {
+                colorer = colors.yellow;
+                count += 1;
+                mark += 1;
+            } else if (count % 3 === 0) {
+                colorer = colors.red;
+                count = 1;
+                mark += 1;
+            } else {
+                count += 1;
+                mark += 1;
+            }
+            console.log(colorer(number));
         }
-        console.log(colorer(number));
     }
+    else if (typeof (number) !== "number") {
+        console.log("Error");
+        break;
+    }
+
 }
 if (mark == 0)
     console.log(colors.red("numbers not found"));
