@@ -22,9 +22,7 @@ const to = process.argv[3];
 
 for (let number = from; number <= to; number++) {
     let colorer = colors.green;
-    let mem = typeof (number)
-    console.log(typeof (mem));
-    if (typeof (number) === "number") {
+    if (!isNaN(Number(number))) {
         if (isPrime(number)) {
             if (count % 2 === 0) {
                 colorer = colors.yellow;
@@ -41,8 +39,8 @@ for (let number = from; number <= to; number++) {
             console.log(colorer(number));
         }
     }
-    else if (typeof (number) !== "number") {
-        console.log("Error");
+    else {
+        console.log(colors.red("Error the value in not a number!!!"));
         break;
     }
 
