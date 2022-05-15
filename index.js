@@ -1,49 +1,18 @@
-const colors = require("colors/safe");
-
-const isPrime = (number) => {
-    if (number < 2)
-        return false;
-
-    for (let i = 2; i <= number / 2; i++) {
-        if (number % i === 0)
-            return false;
-
-    }
-
-    return true;
+let deadline1 = '22:50:00 15 May 2022';
+let deadline2 = process.argv[2]
+function getTimeRemaining(endtime) {
+    let t = Date.parse(endtime) - Date.parse(new Date());
+    let seconds = Math.floor((t / 1000) % 60);
+    let minutes = Math.floor((t / 1000 / 60) % 60);
+    let hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    let days = Math.floor(t / (1000 * 60 * 60 * 24));
+    return {
+        'total': t,
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'seconds': seconds
+    };
 };
-
-let count = 1;
-let mark = 0;
-
-const from = process.argv[2];
-const to = process.argv[3];
-
-
-for (let number = from; number <= to; number++) {
-    let colorer = colors.green;
-    if (!isNaN(Number(number))) {
-        if (isPrime(number)) {
-            if (count % 2 === 0) {
-                colorer = colors.yellow;
-                count += 1;
-                mark += 1;
-            } else if (count % 3 === 0) {
-                colorer = colors.red;
-                count = 1;
-                mark += 1;
-            } else {
-                count += 1;
-                mark += 1;
-            }
-            console.log(colorer(number));
-        }
-    }
-    else {
-        console.log(colors.red("Error the value in not a number!!!"));
-        break;
-    }
-
-}
-if (mark == 0)
-    console.log(colors.red("numbers not found"));
+getTimeRemaining(deadline1).minutes
+console.log(getTimeRemaining(deadline1).total / 1000)
