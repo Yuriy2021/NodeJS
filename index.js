@@ -1,5 +1,5 @@
-let deadline1 = '22:50:00 15 May 2022';
-let deadline2 = process.argv[2]
+let deadline1 = process.argv[2];
+let deadline2 = process.argv[2];
 function getTimeRemaining(endtime) {
     let t = Date.parse(endtime) - Date.parse(new Date());
     let seconds = Math.floor((t / 1000) % 60);
@@ -16,3 +16,4 @@ function getTimeRemaining(endtime) {
 };
 getTimeRemaining(deadline1).minutes
 console.log(getTimeRemaining(deadline1).total / 1000)
+
