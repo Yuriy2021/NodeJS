@@ -1,5 +1,14 @@
-let deadline1 = process.argv[2];
-let deadline2 = process.argv[2];
+const EventEmitter = require ('events');
+const emitter = new EventEmitter();
+let deadline = process.argv[2];
+class Handler {
+    static send(){
+        console.log(`Before timer elapsed: ${getTimeRemaining(deadline).total / 1000}`)
+    }
+}
+emitter.on("send", Handler.send);
+
+
 function getTimeRemaining(endtime) {
     let t = Date.parse(endtime) - Date.parse(new Date());
     let seconds = Math.floor((t / 1000) % 60);
@@ -13,7 +22,12 @@ function getTimeRemaining(endtime) {
         'minutes': minutes,
         'seconds': seconds
     };
+    
 };
-getTimeRemaining(deadline1).minutes
-console.log(getTimeRemaining(deadline1).total / 1000)
-
+let timerID = setInterval(() => {
+    if (getTimeRemaining(deadline).total > 0) {
+        emitter.emit("send")}
+        else{
+            clearInterval(timerID)
+        console.log('Timer was elapsed')}
+        },1000);
