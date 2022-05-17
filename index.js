@@ -5,8 +5,13 @@ class Handler {
     static send(){
         console.log(`Before timer elapsed: ${getTimeRemaining(deadline).total / 1000}`)
     }
+    static stop() {
+        console.log('Timer was elapsed');
+        clearInterval(timerID);
+    }
 }
 emitter.on("send", Handler.send);
+emitter.on("stop",Handler.stop);
 
 
 function getTimeRemaining(endtime) {
@@ -28,6 +33,6 @@ let timerID = setInterval(() => {
     if (getTimeRemaining(deadline).total > 0) {
         emitter.emit("send")}
         else{
-            clearInterval(timerID)
-        console.log('Timer was elapsed')}
+            emitter.emit("stop")
+            }
         },1000);
