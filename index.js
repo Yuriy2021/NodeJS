@@ -1,49 +1,38 @@
-const colors = require("colors/safe");
-
-const isPrime = (number) => {
-    if (number < 2)
-        return false;
-
-    for (let i = 2; i <= number / 2; i++) {
-        if (number % i === 0)
-            return false;
-
+const EventEmitter = require ('events');
+const emitter = new EventEmitter();
+let deadline = process.argv[2];
+class Handler {
+    static send(){
+        console.log(`Before timer elapsed: ${getTimeRemaining(deadline).total / 1000}`)
     }
-
-    return true;
-};
-
-let count = 1;
-let mark = 0;
-
-const from = process.argv[2];
-const to = process.argv[3];
-
-
-for (let number = from; number <= to; number++) {
-    let colorer = colors.green;
-    if (!isNaN(Number(number))) {
-        if (isPrime(number)) {
-            if (count % 2 === 0) {
-                colorer = colors.yellow;
-                count += 1;
-                mark += 1;
-            } else if (count % 3 === 0) {
-                colorer = colors.red;
-                count = 1;
-                mark += 1;
-            } else {
-                count += 1;
-                mark += 1;
-            }
-            console.log(colorer(number));
-        }
+    static stop() {
+        console.log('Timer was elapsed');
+        clearInterval(timerID);
     }
-    else {
-        console.log(colors.red("Error the value in not a number!!!"));
-        break;
-    }
-
 }
-if (mark == 0)
-    console.log(colors.red("numbers not found"));
+emitter.on("send", Handler.send);
+emitter.on("stop",Handler.stop);
+
+
+function getTimeRemaining(endtime) {
+    let t = Date.parse(endtime) - Date.parse(new Date());
+    let seconds = Math.floor((t / 1000) % 60);
+    let minutes = Math.floor((t / 1000 / 60) % 60);
+    let hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    let days = Math.floor(t / (1000 * 60 * 60 * 24));
+    return {
+        'total': t,
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'seconds': seconds
+    };
+    
+};
+let timerID = setInterval(() => {
+    if (getTimeRemaining(deadline).total > 0) {
+        emitter.emit("send")}
+        else{
+            emitter.emit("stop")
+            }
+        },1000);
