@@ -2,24 +2,36 @@
 const fs = require('fs');
 const path = require("path");
 const inquirer = require("inquirer");
-
+const currentDirectory = process.cwd();
 const isFile = (fileName) => {
     return fs.lstatSync(fileName).isFile();
 };
-
-const list = fs.readdirSync(__dirname).filter(isFile);
+const isDir = (dirName) => {
+    return fs.lstatSync(dirName).isDirectory();
+};
+const dir = fs.readdirSync(currentDirectory).filter(isDir);
+const list = fs.readdirSync(currentDirectory).filter(isFile);
 
 inquirer
     .prompt([
+        {
+            name: "directory",
+            type: "list",
+            message: "Choose directory",
+            choices: dir,
+
+        },
         {
             name: "fileName",
             type: "list",
             message: "Choose file:",
             choices: list,
         },
+
     ])
+
     .then((answer) => {
-        const filePath = path.join(__dirname, answer.fileName);
+        const filePath = path.join(answer.directory, answer.fileName);
         const readStream = new fs.ReadStream(filePath, 'utf8');
         const writeStreamFirst = fs.createWriteStream('./%89.123.1.41%.log', {
             flags: "a",
