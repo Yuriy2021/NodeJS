@@ -2,36 +2,22 @@
 const fs = require('fs');
 const path = require("path");
 const inquirer = require("inquirer");
-const currentDirectory = process.cwd();
-const isFile = (fileName) => {
-    return fs.lstatSync(fileName).isFile();
-};
-const isDir = (dirName) => {
-    return fs.lstatSync(dirName).isDirectory();
-};
-const dir = fs.readdirSync(currentDirectory).filter(isDir);
-const list = fs.readdirSync(currentDirectory).filter(isFile);
-
+const inquirerFileTreeSelection = require('inquirer-file-tree-selection-prompt');
+inquirer.registerPrompt('file-tree-selection', inquirerFileTreeSelection);
 inquirer
     .prompt([
         {
             name: "directory",
-            type: "list",
+            type: "file-tree-selection",
             message: "Choose directory",
-            choices: dir,
 
         },
-        {
-            name: "fileName",
-            type: "list",
-            message: "Choose file:",
-            choices: list,
-        },
+
 
     ])
 
     .then((answer) => {
-        const filePath = path.join(answer.directory, answer.fileName);
+        const filePath = answer.directory;
         const readStream = new fs.ReadStream(filePath, 'utf8');
         const writeStreamFirst = fs.createWriteStream('./%89.123.1.41%.log', {
             flags: "a",
@@ -63,10 +49,6 @@ inquirer
 
             }
         });
-
-
         readStream.pipe(transformStreamFirst).pipe(writeStreamFirst);
         readStream.pipe(transformStreamSecond).pipe(writeStreamSecond);
     });
-
-
