@@ -1,5 +1,17 @@
 {
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0"
+    "inquirer": "^8.2.4",
+    "inquirer-directory": "^2.2.0",
+    "inquirer-file-tree-selection-prompt": "^1.0.19",
+    "inquirer-select-directory": "^1.2.0"
   }
 }
