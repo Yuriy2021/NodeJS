@@ -7,25 +7,27 @@ http.createServer(function (request, response) {
     var filePath = '.' + request.url;
     let dirList = "";
 
-    fs.readdir(process.cwd(), function (err, files) {
-        if (err) {
-            console.error(err);
+
+
+
+
+    if (filePath == './')
+        // filePath = './index.html';
+        fs.readdir(process.cwd(), function (err, files) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            dirList = files.map(i => `<li>${i}</li>`).join("");
             return;
-        }
 
-        dirList = files.map(i => `<li>${i}</li>`).join("");
-        return;
-
-    });
+        });
     fs.readFile('index.html', 'utf-8', function (error, data) {
         data = data.replace('{{list}}', dirList);
         response.end(data);
     });
 
-
-
-    if (filePath == './')
-        filePath = './index.html';
 
     var extname = path.extname(filePath);
     var contentType = 'text/html';
