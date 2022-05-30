@@ -5,31 +5,34 @@ var path = require('path');
 http.createServer(function (request, response) {
     console.log('request starting...');
     var filePath = '.' + request.url;
-    let dirList = "";
+
+    dirPath = request.url;
 
 
 
+    var extname = path.extname(filePath);
+
+    if (!extname)
+        rname = path.dirname(dirPath);
 
 
-    if (filePath == './')
-        // filePath = './index.html';
-        fs.readdir(process.cwd(), function (err, files) {
-            if (err) {
-                console.error(err);
-                return;
-            }
-
-            dirList = files.map(i => `<li>${i}</li>`).join("");
+    fs.readdir(rname, function (err, files) {
+        if (err) {
+            console.error(err);
             return;
+        }
 
-        });
+        dirList = files.map(i => `<li>${i}</li>`).join("");
+        return;
+
+    });
     fs.readFile('index.html', 'utf-8', function (error, data) {
         data = data.replace('{{list}}', dirList);
         response.end(data);
     });
 
 
-    var extname = path.extname(filePath);
+
     var contentType = 'text/html';
     switch (extname) {
         case '.js':
