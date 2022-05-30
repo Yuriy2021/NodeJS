@@ -1,21 +1,28 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-const { stringify } = require('querystring');
 
 http.createServer(function (request, response) {
     console.log('request starting...');
     var filePath = '.' + request.url;
+    let dirList = "";
 
     fs.readdir(process.cwd(), function (err, files) {
         if (err) {
             console.error(err);
             return;
         }
-        response.writeHead(200, { 'Content-Type': 'application/json' });
-        response.json(files);
+
+        dirList = files.map(i => `<li>${i}</li>`).join("");
+        return;
 
     });
+    fs.readFile('index.html', 'utf-8', function (error, data) {
+        data = data.replace('{{list}}', dirList);
+        response.end(data);
+    });
+
+
 
     if (filePath == './')
         filePath = './index.html';
