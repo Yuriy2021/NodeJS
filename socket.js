@@ -16,8 +16,7 @@ io.on('connection', function (client) {
     client.on('disconnect', function (data) {
         console.log('User disconnected');
         counts -= 1;
-        console.log(counts);
-        client.broadcast.emit("disconnected", { message: 'The client disconnected' }, counts);
+        client.broadcast.emit("disconnected", { message: 'The client disconnected', counts });
 
     });
 });
@@ -25,8 +24,6 @@ io.on('connection', function (client) {
 io.on("connection", (client) => {
     console.log("Connected");
     counts += 1;
-    console.log(counts);
-
     client.on("connected", (data) => {
         client.broadcast.emit("connected", { message: 'The new client connected', counts });
     });
