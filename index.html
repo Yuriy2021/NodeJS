@@ -13,15 +13,18 @@
     <input id="input" type="text" autofocus />
     <button id="button">Send</button>
     <div id="messages"></div>
+    <div id="counter"></div>
     <script>
         const socket = io("localhost:8085");
         const messageBlock = document.querySelector("#messages");
         const button = document.querySelector("#button");
         const input = document.querySelector("#input");
+        const count = document.querySelector("#counter");
 
         button.addEventListener("click", () => {
+            const user = "user1";
             const data = {
-                message: input.value,
+                message: `${user}` + input.value,
             };
 
             socket.emit("newMessage", data);
@@ -36,12 +39,18 @@
                 "beforeend",
                 `<div>${data.message}</div>`
             );
+            count.innerHTML +=
+                `<div>Users online: ${data.counts}</div>`
+                ;
         });
         socket.on("disconnected", (data) => {
             messageBlock.insertAdjacentHTML(
                 "beforeend",
                 `<div>${data.message}</div>`
             );
+            count.innerHTML +=
+                `<div>Users online: ${data.counts}</div>`
+                ;
         });
 
         socket.on("newMessage", (data) => {
@@ -51,6 +60,7 @@
                 `<div>${data.message}</div>`
             );
         });
+
     </script>
 </body>
 
