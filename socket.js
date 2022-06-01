@@ -9,23 +9,27 @@ const server = http.createServer((req, res) => {
 
     readStream.pipe(res);
 });
-
+let counts = 0;
 const io = socket(server);
 
 io.on('connection', function (client) {
     client.on('disconnect', function (data) {
         console.log('User disconnected');
-        client.broadcast.emit("disconnected", { message: 'The client disconnected' });
+        counts -= 1;
+        console.log(counts);
+        client.broadcast.emit("disconnected", { message: 'The client disconnected' }, counts);
 
     });
 });
 
 io.on("connection", (client) => {
     console.log("Connected");
+    counts += 1;
+    console.log(counts);
 
     client.on("connected", (data) => {
-        client.broadcast.emit("connected", { message: 'The new client connected' });
-    })
+        client.broadcast.emit("connected", { message: 'The new client connected', counts });
+    });
 
     client.on("newMessage", (data) => {
         console.log(data);
