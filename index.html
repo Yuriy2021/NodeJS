@@ -21,7 +21,7 @@
 
         button.addEventListener("click", () => {
             const data = {
-                message: input.value,
+                message:  input.value,
             };
 
             socket.emit("newMessage", data);
@@ -34,7 +34,7 @@
         socket.on("connected", (data) => {
             messageBlock.insertAdjacentHTML(
                 "beforeend",
-                `<div>${data.message}</div>`
+                `<div>${data.shortName}:${data.message}</div>`
             );
         });
         socket.on("disconnected", (data) => {
@@ -44,11 +44,12 @@
             );
         });
 
-        socket.on("newMessage", (data) => {
+        socket.on("newMessage", (data,shortName) => {  
+            console.log(shortName);                  
             input.value = "";
             messageBlock.insertAdjacentHTML(
                 "beforeend",
-                `<div>${data.message}</div>`
+                `<div>${shortName}:${data.message}</div>`
             );
         });
     </script>
