@@ -22,7 +22,6 @@ io.on('connection', function (client) {
 
     });
 });
-
 io.on("connection", (client) => {
     console.log("Connected");
     counts += 1;
