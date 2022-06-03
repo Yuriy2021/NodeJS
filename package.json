@@ -1,5 +1,23 @@
 {
+  "name": "nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node web.js"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0"
-  }
+    "http-server": "^14.1.0",
+    "inquirer": "^8.2.4",
+    "inquirer-directory": "^2.2.0",
+    "inquirer-file-tree-selection-prompt": "^1.0.19",
+    "inquirer-select-directory": "^1.2.0",
+    "nodemo": "^1.0.0",
+    "nodemon": "^2.0.16",
+    "socket.io": "^4.5.1",
+    "unique-names-generator": "^4.7.1"
+  },
+  "description": ""
 }
